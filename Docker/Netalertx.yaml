@@ -1,0 +1,23 @@
+  netalertx:
+    image: ghcr.io/jokob-sk/netalertx:latest
+    container_name: NetalertX
+    hostname: netalertx
+    environment:
+      - PUID=${PUID:?err}    # User ID
+      - PGID=${PGID:?err}    # Group ID
+      - TZ=${TZ:?err}        # TimeZone
+      - UMASK=${UMASK:?err}  # File Umask
+    volumes:
+      - ${DOCKERFOLDER:?err}/netalertx/db:/app/db
+      - ${DOCKERFOLDER:?err}/netalertx/conf:/app/conf
+      - ${DOCKERFOLDER:?err}/netalertx/log:/app/log
+      - ${DOCKERFOLDER:?err}/netalertx/api:/app/api
+      #- ${DOCKERFOLDER:?err}/netalertx:/etc/resolv.conf
+    logging:
+      driver: json-file
+      options:
+        max-file: ${DOCKERLOGGING_MAXFILE:?err}  # Max number of log files
+        max-size: ${DOCKERLOGGING_MAXSIZE:?err}  # Max file size
+    ports:
+      - 5001:5000
+    restart: unless-stopped

@@ -1,0 +1,52 @@
+services:
+  windows11:
+    image: dockurr/windows
+    container_name: windows11
+    environment:
+      VERSION: "11"
+      USERNAME: "localadmin"
+      PASSWORD: ""
+      RAM_SIZE: "16G"
+      CPU_CORES: "4"
+#      VM_NET_DEV: "NAME"
+      REGION: "en-US"
+      KEYBOARD: "en-US"
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ${DOCKERFOLDER:?err}/windows/windows11:/storage
+    ports:
+      - 8009:8006       # Web Console
+      - 3389:3389/tcp   # RDP Port
+      - 3389:3389/udp   # RDP Port
+    stop_grace_period: 2m
+    restart: always
+    
+  windows2025:
+    image: dockurr/windows
+    container_name: windows2025
+    environment:
+      VERSION: "2025"
+      USERNAME: "localadmin"
+      PASSWORD: ""
+      RAM_SIZE: "16G"
+      CPU_CORES: "4"
+#      VM_NET_DEV: "NAME"
+      REGION: "en-US"
+      KEYBOARD: "en-US"
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ${DOCKERFOLDER:?err}/windows/windows2025:/storage
+    ports:
+      - 8010:8006       # Web Console
+      - 3390:3389/tcp   # RDP Port
+      - 3390:3389/udp   # RDP Port
+    stop_grace_period: 2m
+    restart: always
