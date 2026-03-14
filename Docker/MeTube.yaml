@@ -1,0 +1,28 @@
+services:
+###########################################################################
+##  Docker Compose File:  MeTube
+##  Function:             Youtube Downloader
+##  Documentation:        
+###########################################################################
+  metube:
+    image: ghcr.io/alexta69/metube
+    container_name: metube
+    environment:
+      - DEFAULT_THEME=auto # Optional: auto, light, or dark   
+      - UID=${PUID}    # User ID
+      - GID=${PGID}    # Group ID
+      - TZ=${TZ}        # TimeZone
+      - UMASK=${UMASK}  # File Umask 
+    logging:
+      driver: json-file
+      options:
+        max-file: ${DOCKERLOGGING_MAXFILE}
+        max-size: ${DOCKERLOGGING_MAXSIZE}
+    ports:
+      - "8086:8081" # Host_Port:Container_Port
+    volumes:
+      - ${MEDIAFOLDER}/metube:/downloads # Host_Path:Container_Path
+    restart: unless-stopped
+#networks:
+#  bridge:
+#    name: bridge
